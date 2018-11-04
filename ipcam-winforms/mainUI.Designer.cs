@@ -508,10 +508,10 @@
             this.customRadioBttn.AutoSize = true;
             this.customRadioBttn.Location = new System.Drawing.Point(39, 269);
             this.customRadioBttn.Name = "customRadioBttn";
-            this.customRadioBttn.Size = new System.Drawing.Size(56, 17);
+            this.customRadioBttn.Size = new System.Drawing.Size(59, 17);
             this.customRadioBttn.TabIndex = 34;
             this.customRadioBttn.TabStop = true;
-            this.customRadioBttn.Text = "cusom";
+            this.customRadioBttn.Text = "custom";
             this.customRadioBttn.UseVisualStyleBackColor = true;
             this.customRadioBttn.CheckedChanged += new System.EventHandler(this.customRadioBttn_CheckedChanged);
             // 
