@@ -50,6 +50,8 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.updatelbl = new System.Windows.Forms.Label();
             this.updatebttn = new System.Windows.Forms.Button();
             this.discardOutputCheck = new System.Windows.Forms.CheckBox();
             this.defewayRadioBttn = new System.Windows.Forms.RadioButton();
@@ -67,11 +69,13 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.updatelbl = new System.Windows.Forms.Label();
+            this.customRadioBttn = new System.Windows.Forms.RadioButton();
+            this.loadCustomBttn = new System.Windows.Forms.Button();
+            this.createCustomBttn = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -79,7 +83,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // inputBttn
@@ -104,7 +107,7 @@
             // 
             // startBttn
             // 
-            this.startBttn.Location = new System.Drawing.Point(36, 290);
+            this.startBttn.Location = new System.Drawing.Point(38, 319);
             this.startBttn.Name = "startBttn";
             this.startBttn.Size = new System.Drawing.Size(177, 23);
             this.startBttn.TabIndex = 3;
@@ -114,7 +117,7 @@
             // 
             // aboutBttn
             // 
-            this.aboutBttn.Location = new System.Drawing.Point(36, 319);
+            this.aboutBttn.Location = new System.Drawing.Point(38, 348);
             this.aboutBttn.Name = "aboutBttn";
             this.aboutBttn.Size = new System.Drawing.Size(177, 23);
             this.aboutBttn.TabIndex = 14;
@@ -172,7 +175,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(36, 266);
+            this.label4.Location = new System.Drawing.Point(38, 295);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 25;
@@ -183,7 +186,7 @@
             this.threadSelector.Items.Add("4");
             this.threadSelector.Items.Add("2");
             this.threadSelector.Items.Add("1");
-            this.threadSelector.Location = new System.Drawing.Point(91, 264);
+            this.threadSelector.Location = new System.Drawing.Point(93, 293);
             this.threadSelector.Name = "threadSelector";
             this.threadSelector.Size = new System.Drawing.Size(42, 20);
             this.threadSelector.TabIndex = 24;
@@ -193,7 +196,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label7.Location = new System.Drawing.Point(33, 370);
+            this.label7.Location = new System.Drawing.Point(35, 399);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(96, 13);
             this.label7.TabIndex = 30;
@@ -232,7 +235,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label8.Location = new System.Drawing.Point(33, 346);
+            this.label8.Location = new System.Drawing.Point(35, 375);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(84, 13);
             this.label8.TabIndex = 29;
@@ -257,6 +260,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.createCustomBttn);
+            this.tabPage1.Controls.Add(this.loadCustomBttn);
+            this.tabPage1.Controls.Add(this.customRadioBttn);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.discardOutputCheck);
             this.tabPage1.Controls.Add(this.defewayRadioBttn);
@@ -280,6 +286,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.updatelbl);
+            this.groupBox1.Controls.Add(this.updatebttn);
+            this.groupBox1.Location = new System.Drawing.Point(38, 377);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(133, 72);
+            this.groupBox1.TabIndex = 33;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "update";
+            // 
+            // updatelbl
+            // 
+            this.updatelbl.AutoSize = true;
+            this.updatelbl.Location = new System.Drawing.Point(12, 22);
+            this.updatelbl.Name = "updatelbl";
+            this.updatelbl.Size = new System.Drawing.Size(100, 13);
+            this.updatelbl.TabIndex = 35;
+            this.updatelbl.Text = "no update available";
             // 
             // updatebttn
             // 
@@ -477,25 +503,37 @@
             this.pictureBox3.TabStop = false;
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
-            // groupBox1
+            // customRadioBttn
             // 
-            this.groupBox1.Controls.Add(this.updatelbl);
-            this.groupBox1.Controls.Add(this.updatebttn);
-            this.groupBox1.Location = new System.Drawing.Point(36, 348);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(133, 72);
-            this.groupBox1.TabIndex = 33;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "update";
+            this.customRadioBttn.AutoSize = true;
+            this.customRadioBttn.Location = new System.Drawing.Point(39, 269);
+            this.customRadioBttn.Name = "customRadioBttn";
+            this.customRadioBttn.Size = new System.Drawing.Size(56, 17);
+            this.customRadioBttn.TabIndex = 34;
+            this.customRadioBttn.TabStop = true;
+            this.customRadioBttn.Text = "cusom";
+            this.customRadioBttn.UseVisualStyleBackColor = true;
+            this.customRadioBttn.CheckedChanged += new System.EventHandler(this.customRadioBttn_CheckedChanged);
             // 
-            // updatelbl
+            // loadCustomBttn
             // 
-            this.updatelbl.AutoSize = true;
-            this.updatelbl.Location = new System.Drawing.Point(12, 22);
-            this.updatelbl.Name = "updatelbl";
-            this.updatelbl.Size = new System.Drawing.Size(100, 13);
-            this.updatelbl.TabIndex = 35;
-            this.updatelbl.Text = "no update available";
+            this.loadCustomBttn.Location = new System.Drawing.Point(101, 266);
+            this.loadCustomBttn.Name = "loadCustomBttn";
+            this.loadCustomBttn.Size = new System.Drawing.Size(49, 23);
+            this.loadCustomBttn.TabIndex = 35;
+            this.loadCustomBttn.Text = "LOAD";
+            this.loadCustomBttn.UseVisualStyleBackColor = true;
+            this.loadCustomBttn.Click += new System.EventHandler(this.loadCustomBttn_Click);
+            // 
+            // createCustomBttn
+            // 
+            this.createCustomBttn.Location = new System.Drawing.Point(156, 266);
+            this.createCustomBttn.Name = "createCustomBttn";
+            this.createCustomBttn.Size = new System.Drawing.Size(94, 23);
+            this.createCustomBttn.TabIndex = 36;
+            this.createCustomBttn.Text = "CREATE CFG";
+            this.createCustomBttn.UseVisualStyleBackColor = true;
+            this.createCustomBttn.Click += new System.EventHandler(this.createCustomBttn_Click);
             // 
             // mainUI
             // 
@@ -512,6 +550,8 @@
             this.tabs.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
@@ -520,8 +560,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -567,6 +605,9 @@
         private System.Windows.Forms.Button updatebttn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label updatelbl;
+        private System.Windows.Forms.Button createCustomBttn;
+        private System.Windows.Forms.Button loadCustomBttn;
+        private System.Windows.Forms.RadioButton customRadioBttn;
     }
 }
 

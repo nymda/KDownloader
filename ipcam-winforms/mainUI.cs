@@ -24,14 +24,22 @@ namespace ipcam_winforms
         public string foscamlocation = "/snapshot.cgi";
         public string sineojilocation = "/tmpfs/auto.jpg";
         public string defewaylocation = "/cgi-bin/snapshot.cgi?chn=1&u=admin&p=";
+        public string customlocation;
 
         public NetworkCredential foscamCreds = new NetworkCredential("admin", "");
         public NetworkCredential sineojiCreds = new NetworkCredential("user", "user");
         public NetworkCredential defewayCreds = new NetworkCredential("admin", "");
+        public NetworkCredential customCreds;
 
         public string[] foscamCredsPlain = { "admin", "" };
         public string[] sineojiCredsPlain = { "user", "user" };
         public string[] defewayCredsPlain = { "admin", "" };
+        public List<String> customCredsPlain = new List<String> { "", "" };
+
+        public string customDataB64;
+        public string customDataStr;
+        public List<String> customDataRaw = new List<String> { };
+        public bool isUsingCustomCameraData = false;
 
         public NetworkCredential currentCreds;
         public string[] currentCredsPlain;
@@ -318,6 +326,39 @@ namespace ipcam_winforms
                 if (threadSelector.Text == "1")
                 {
                     Thread a = new Thread(() => MainTestThread(defewayCreds, "admin : blank", 1, lines, defewaylocation, defewayCredsPlain));
+                    a.IsBackground = true;
+                    a.Start();
+                }
+            }
+            if (customRadioBttn.Checked)
+            {
+                if (threadSelector.Text == "4")
+                {
+                    Thread a = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 1, firstsplit, customlocation, customCredsPlain.ToArray()));
+                    Thread b = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 2, secondsplit, customlocation, customCredsPlain.ToArray()));
+                    Thread c = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 3, thirdsplit, customlocation, customCredsPlain.ToArray()));
+                    Thread d = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 4, forthsplit, customlocation, customCredsPlain.ToArray()));
+                    a.IsBackground = true;
+                    b.IsBackground = true;
+                    c.IsBackground = true;
+                    d.IsBackground = true;
+                    a.Start();
+                    b.Start();
+                    c.Start();
+                    d.Start();
+                }
+                if (threadSelector.Text == "2")
+                {
+                    Thread a = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 1, Ofirstsplit, customlocation, customCredsPlain.ToArray()));
+                    Thread b = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 2, Osecondsplit, customlocation, customCredsPlain.ToArray()));
+                    a.IsBackground = true;
+                    b.IsBackground = true;
+                    a.Start();
+                    b.Start();
+                }
+                if (threadSelector.Text == "1")
+                {
+                    Thread a = new Thread(() => MainTestThread(customCreds, (customCredsPlain[0] + " : " + customCredsPlain[1]), 1, lines, customlocation, customCredsPlain.ToArray()));
                     a.IsBackground = true;
                     a.Start();
                 }
@@ -731,6 +772,59 @@ namespace ipcam_winforms
                 p.Start();
                 this.Close();
                 //update done
+            }
+        }
+
+        private void createCustomBttn_Click(object sender, EventArgs e)
+        {
+            Form customCameraSetup = new customCameraSetup();
+            customCameraSetup.Show();
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        private void setupCustomCamera()
+        {
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = "Open Custom Camera File";
+                dlg.Filter = "camera files | *.cdat";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    customRadioBttn.Checked = true;
+                    isUsingCustomCameraData = true;
+                    customDataB64 = File.ReadAllText(dlg.FileName);
+                    customDataStr = Base64Decode(customDataB64);
+                    customDataRaw = customDataStr.Split(',').ToList();
+
+                    customCredsPlain[0] = customDataRaw[1];
+                    customCredsPlain[1] = customDataRaw[2];
+
+                    customCreds = new NetworkCredential(customDataRaw[1], customDataRaw[2]);
+
+                    customlocation = customDataRaw[0];
+                }
+            }
+        }
+
+        private void loadCustomBttn_Click(object sender, EventArgs e)
+        {
+            if (!isUsingCustomCameraData)
+            {
+                setupCustomCamera();
+            }
+        }
+
+        private void customRadioBttn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!isUsingCustomCameraData)
+            {
+                setupCustomCamera();
             }
         }
     }
