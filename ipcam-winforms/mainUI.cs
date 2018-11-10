@@ -86,7 +86,7 @@ namespace ipcam_winforms
         //other
         public bool usingPasslist = false;
         public bool pause = false;
-        public int ID = 0;
+        public int ID = 1;
         public int httpResponseTimer = 0;
         public string oldest = "";
         public string lastlocation = "";

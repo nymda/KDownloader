@@ -45,11 +45,18 @@ namespace ipcam_winforms
 
         private void savebttn_Click(object sender, EventArgs e)
         {
-            string newName = myLocation + "/" + textBox5.Text;
-            var v = File.Create(newName + ".cdat");
-            v.Dispose();
-            File.WriteAllText(newName + ".cdat", Base64Encode(textBox1.Text + "," + textBox2.Text + "," + textBox3.Text));
-            label2.Text = "saved as " + textBox5.Text + ".cdat";
+            using (SaveFileDialog dlg = new SaveFileDialog())
+            {
+                dlg.Title = "Save Custom Camera File";
+                dlg.Filter = "camera files | *.cdat";
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    string newName = dlg.FileName;
+                    File.WriteAllText(newName, Base64Encode(textBox1.Text + "," + textBox2.Text + "," + textBox3.Text));
+                    label2.Text = "saved successfully.";
+                }
+            }
         }
 
         private void testbttn_Click(object sender, EventArgs e)
@@ -77,6 +84,11 @@ namespace ipcam_winforms
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
             textBox4.Text = textBox4.Text.Replace("http://", "");
+        }
+
+        private void customCameraSetup_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

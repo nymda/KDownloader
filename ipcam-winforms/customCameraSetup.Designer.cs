@@ -41,8 +41,6 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.testlbl = new System.Windows.Forms.Label();
             this.helpbttn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -99,14 +97,14 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(302, 6);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(311, 197);
+            this.pictureBox1.Size = new System.Drawing.Size(354, 169);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
             // testbttn
             // 
-            this.testbttn.Location = new System.Drawing.Point(221, 84);
+            this.testbttn.Location = new System.Drawing.Point(581, 181);
             this.testbttn.Name = "testbttn";
             this.testbttn.Size = new System.Drawing.Size(75, 23);
             this.testbttn.TabIndex = 7;
@@ -116,9 +114,9 @@
             // 
             // savebttn
             // 
-            this.savebttn.Location = new System.Drawing.Point(15, 139);
+            this.savebttn.Location = new System.Drawing.Point(12, 86);
             this.savebttn.Name = "savebttn";
-            this.savebttn.Size = new System.Drawing.Size(281, 23);
+            this.savebttn.Size = new System.Drawing.Size(284, 23);
             this.savebttn.TabIndex = 8;
             this.savebttn.Text = "SAVE";
             this.savebttn.UseVisualStyleBackColor = true;
@@ -126,7 +124,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(85, 86);
+            this.textBox4.Location = new System.Drawing.Point(445, 183);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(130, 20);
             this.textBox4.TabIndex = 9;
@@ -135,7 +133,7 @@
             // testlbl
             // 
             this.testlbl.AutoSize = true;
-            this.testlbl.Location = new System.Drawing.Point(26, 89);
+            this.testlbl.Location = new System.Drawing.Point(388, 186);
             this.testlbl.Name = "testlbl";
             this.testlbl.Size = new System.Drawing.Size(51, 13);
             this.testlbl.TabIndex = 10;
@@ -143,7 +141,7 @@
             // 
             // helpbttn
             // 
-            this.helpbttn.Location = new System.Drawing.Point(12, 180);
+            this.helpbttn.Location = new System.Drawing.Point(12, 113);
             this.helpbttn.Name = "helpbttn";
             this.helpbttn.Size = new System.Drawing.Size(24, 23);
             this.helpbttn.TabIndex = 11;
@@ -151,26 +149,10 @@
             this.helpbttn.UseVisualStyleBackColor = true;
             this.helpbttn.Click += new System.EventHandler(this.helpbttn_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 116);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "NAME: ";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(85, 113);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 13;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 165);
+            this.label2.Location = new System.Drawing.Point(12, 190);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 14;
@@ -179,10 +161,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 210);
+            this.ClientSize = new System.Drawing.Size(665, 212);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.helpbttn);
             this.Controls.Add(this.testlbl);
             this.Controls.Add(this.textBox4);
@@ -198,6 +178,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "customCameraSetup";
             this.Text = "Custom camera setup";
+            this.Load += new System.EventHandler(this.customCameraSetup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -218,8 +199,6 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label testlbl;
         private System.Windows.Forms.Button helpbttn;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label2;
     }
 }
