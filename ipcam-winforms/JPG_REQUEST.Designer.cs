@@ -116,7 +116,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "JPG_REQUEST";
-            this.Text = "JPG_REQUEST";
+            this.Text = "LIVE";
             this.Load += new System.EventHandler(this.JPG_REQUEST_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

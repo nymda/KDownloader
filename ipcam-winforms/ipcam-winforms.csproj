@@ -93,6 +93,12 @@
     <Compile Include="customCameraSetup.Designer.cs">
       <DependentUpon>customCameraSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="JPG_REQUEST_NOPTZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JPG_REQUEST_NOPTZ.Designer.cs">
+      <DependentUpon>JPG_REQUEST_NOPTZ.cs</DependentUpon>
+    </Compile>
     <Compile Include="mainUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="customCameraSetup.resx">
       <DependentUpon>customCameraSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JPG_REQUEST_NOPTZ.resx">
+      <DependentUpon>JPG_REQUEST_NOPTZ.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainUI.resx">
       <DependentUpon>mainUI.cs</DependentUpon>

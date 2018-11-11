@@ -86,12 +86,13 @@ namespace ipcam_winforms
         //other
         public bool usingPasslist = false;
         public bool pause = false;
-        public int ID = 1;
+        public int ID = 2;
         public int httpResponseTimer = 0;
         public string oldest = "";
         public string lastlocation = "";
         public int counter;
         public ManualResetEvent mrse = new ManualResetEvent(true);
+        public string cdatfolderpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/" + "cdats";
 
 
     public mainUI()
@@ -405,7 +406,6 @@ namespace ipcam_winforms
             currentCreds = credential;
             currentCredsPlain = credsPlain;
 
-            Console.WriteLine("thread " + threadindex + " started");
             int i = 0;
             mainUI f1 = new mainUI();
             string linesfile = inputFileName;
@@ -455,8 +455,6 @@ namespace ipcam_winforms
 
                         Directory.CreateDirectory(exepath + "/drawn");
 
-                        Console.WriteLine("finished passlist segment");
-
                         client.Credentials = credential;
 
                         Stopwatch sw = Stopwatch.StartNew();
@@ -474,7 +472,6 @@ namespace ipcam_winforms
                         Bitmap bitmap = (Bitmap)Image.FromFile(localFilename);
                         if (bitmap.Width == 320)
                         {
-                            Console.WriteLine("changed size");
                             bitmap = ResizeImage(bitmap, bitmap.Width * 4, bitmap.Height * 4);
                         }
 
@@ -482,21 +479,41 @@ namespace ipcam_winforms
                         {
                             using (Font lucFont = new Font("Lucida Console", 10))
                             {
+                                string username;
+                                string password;
+                                if (currentCredsPlain[0] == "")
+                                {
+                                    username = "(blank)";
+                                }
+                                else
+                                {
+                                    username = currentCredsPlain[0];
+                                }
+                                if (currentCredsPlain[1] == "")
+                                {
+                                    password = "(blank)";
+                                }
+                                else
+                                {
+                                    password = currentCredsPlain[1];
+                                }
                                 PointF Pointvar = new PointF(10f, 10f);
                                 PointF Pointvar2 = new PointF(10f, 24f);
                                 SizeF size = graphics.MeasureString(linex, lucFont);
-                                SizeF size2 = graphics.MeasureString(currentCredsPlain[0] + " : " + currentCredsPlain[1], lucFont);
+                                SizeF size2 = graphics.MeasureString(username + " : " + password, lucFont);
                                 RectangleF rect = new RectangleF(Pointvar, size);
                                 RectangleF rect2 = new RectangleF(Pointvar2, size2);
                                 graphics.FillRectangle(Brushes.Black, rect);
                                 graphics.FillRectangle(Brushes.Black, rect2);
                                 graphics.DrawString(linex, lucFont, Brushes.White, firstLocation);
-                                graphics.DrawString(currentCredsPlain[0] + " : " + currentCredsPlain[1], lucFont, Brushes.White, secondLocation);
+                                graphics.DrawString(username + " : " + password, lucFont, Brushes.White, secondLocation);
+                                //graphics.Dispose();
                             }
                         }
 
                         bitmap.Save(localFilenameEdit, ImageFormat.Jpeg);
-                        Console.WriteLine(linex + " > " + localFilenameEdit);
+
+                        bitmap.Dispose();
 
                         currentip = linex;
 
@@ -516,11 +533,11 @@ namespace ipcam_winforms
 
                         this.Invoke(new MethodInvoker(delegate ()
                         {
-                            try { pictureBox2.Image = Bitmap.FromFile(shiftreg1); } catch { Console.WriteLine("failed SR1" + shiftreg1); }
-                            try { pictureBox3.Image = Bitmap.FromFile(shiftreg2); } catch { Console.WriteLine("failed SR2" + shiftreg2); }
-                            try { pictureBox4.Image = Bitmap.FromFile(shiftreg3); } catch { Console.WriteLine("failed SR3" + shiftreg3); }
-                            try { pictureBox5.Image = Bitmap.FromFile(shiftreg4); } catch { Console.WriteLine("failed SR4" + shiftreg3); }
-                            try { pictureBox6.Image = Bitmap.FromFile(shiftreg5); } catch { Console.WriteLine("failed SR5" + shiftreg3); }
+                            try { pictureBox2.Image = Bitmap.FromFile(shiftreg1); } catch { }
+                            try { pictureBox3.Image = Bitmap.FromFile(shiftreg2); } catch { }
+                            try { pictureBox4.Image = Bitmap.FromFile(shiftreg3); } catch { }
+                            try { pictureBox5.Image = Bitmap.FromFile(shiftreg4); } catch { }
+                            try { pictureBox6.Image = Bitmap.FromFile(shiftreg5); } catch { }
 
                             string[] time = sw.Elapsed.TotalMilliseconds.ToString().Split('.');
 
@@ -550,7 +567,7 @@ namespace ipcam_winforms
                             }));
                         }
 
-                        bitmap.Dispose();
+                        //bitmap.Dispose();
 
                         File.Delete(localFilename);
 
@@ -643,6 +660,18 @@ namespace ipcam_winforms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (!Directory.Exists(cdatfolderpath))
+            {
+                Directory.CreateDirectory(cdatfolderpath);
+            }
+
+            DirectoryInfo d = new DirectoryInfo(cdatfolderpath);
+
+            foreach (var file in d.GetFiles("*.cdat"))
+            {
+                checkedListBox1.Items.Add(file.Name);
+            }
+
             if (checkforupdate())
             {
                 updatelbl.Text = "UPDATE AVAILABLE";
@@ -726,6 +755,7 @@ namespace ipcam_winforms
                 clocation = sineojilocation;
                 Form JPG_REQUEST = new JPG_REQUEST(currentip, currentCredsPlain[0], currentCredsPlain[1], clocation);
                 JPG_REQUEST.Show();
+                return;
             }
             if (foscamRadioBttn.Checked)
             {
@@ -733,6 +763,16 @@ namespace ipcam_winforms
                 clocation = foscamlocation;
                 Form JPG_REQUEST_FOSCAM = new JPG_REQUEST_FOSCAM(currentip, currentCredsPlain[0], currentCredsPlain[1], clocation);
                 JPG_REQUEST_FOSCAM.Show();
+                return;
+            }
+            else
+            {
+                string clocation = "";
+                clocation = customlocation;
+                Form JPG_REQUEST_NOPTZ = new JPG_REQUEST_NOPTZ(currentip, customCredsPlain[0], customCredsPlain[1], clocation);
+                Console.WriteLine("current ip: " + currentip + "custom creds 0" + customCredsPlain[0] + "custom creds 1" + customCredsPlain[1] + "clocation" + clocation);
+                JPG_REQUEST_NOPTZ.Show();
+                return;
             }
         }
 
@@ -789,6 +829,11 @@ namespace ipcam_winforms
 
         private void setupCustomCamera()
         {
+            if(!(checkedListBox1.Items.Count == 0))
+            {
+                return;
+            }
+
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
                 dlg.Title = "Open Custom Camera File";
@@ -822,9 +867,44 @@ namespace ipcam_winforms
 
         private void customRadioBttn_CheckedChanged(object sender, EventArgs e)
         {
+            if (customRadioBttn.Checked)
+            {
+                checkedListBox1.Enabled = true;
+            }
             if (!isUsingCustomCameraData)
             {
                 setupCustomCamera();
+            }
+        }
+
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == CheckState.Checked)
+                for (int ix = 0; ix < checkedListBox1.Items.Count; ++ix)
+                    if (e.Index != ix) checkedListBox1.SetItemChecked(ix, false);
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Console.WriteLine(cdatfolderpath + "/" + checkedListBox1.SelectedItem);
+                customRadioBttn.Checked = true;
+                isUsingCustomCameraData = true;
+                customDataB64 = File.ReadAllText(cdatfolderpath + "/" + checkedListBox1.SelectedItem);
+                customDataStr = Base64Decode(customDataB64);
+                customDataRaw = customDataStr.Split(',').ToList();
+
+                customCredsPlain[0] = customDataRaw[1];
+                customCredsPlain[1] = customDataRaw[2];
+
+                customCreds = new NetworkCredential(customDataRaw[1], customDataRaw[2]);
+
+                customlocation = customDataRaw[0];
+            }
+            catch
+            {
+
             }
         }
     }

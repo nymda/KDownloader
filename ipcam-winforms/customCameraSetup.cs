@@ -20,6 +20,7 @@ namespace ipcam_winforms
         }
 
         public string myLocation = Application.StartupPath;
+        public string cdatfolderpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/" + "cdats";
 
         private void helpbttn_Click(object sender, EventArgs e)
         {
@@ -49,6 +50,8 @@ namespace ipcam_winforms
             {
                 dlg.Title = "Save Custom Camera File";
                 dlg.Filter = "camera files | *.cdat";
+                dlg.InitialDirectory = Path.GetFullPath(cdatfolderpath);
+                dlg.RestoreDirectory = false;
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
