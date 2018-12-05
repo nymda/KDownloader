@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ipcam_winforms.ServiceReference1;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,8 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -116,7 +119,7 @@ namespace ipcam_winforms
                     filelengh = lines.Count();
                     label6.Text = ("Tested: " + counter);
                     label5.Text = "IPs: " + filelengh;
-                    inputBttn.ForeColor = Color.DarkGreen;
+                    inputBttn.ForeColor = System.Drawing.Color.DarkGreen;
                     label8.Text = inputSafeFileName;
                 }
             }
@@ -135,7 +138,7 @@ namespace ipcam_winforms
                     string SafeFileName = Path.GetFileName(dlg.FileName);
                     outputSafeFileName = SafeFileName;
                     outputFileName = dlg.FileName;
-                    outputBttn.ForeColor = Color.DarkGreen;
+                    outputBttn.ForeColor = System.Drawing.Color.DarkGreen;
                     label7.Text = outputSafeFileName;
                 }
             }
@@ -370,7 +373,7 @@ namespace ipcam_winforms
 
         public static Bitmap ResizeImage(Image image, int width, int height)
         {
-            var destRect = new Rectangle(0, 0, width, height);
+            var destRect = new System.Drawing.Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
@@ -459,6 +462,7 @@ namespace ipcam_winforms
 
                         Stopwatch sw = Stopwatch.StartNew();
 
+                        //Console.WriteLine("testing: " + linex);
                         client.DownloadFile(new Uri("http://" + linex + location), localFilename);
 
                         sw.Stop();
@@ -507,7 +511,7 @@ namespace ipcam_winforms
                                 graphics.FillRectangle(Brushes.Black, rect2);
                                 graphics.DrawString(linex, lucFont, Brushes.White, firstLocation);
                                 graphics.DrawString(username + " : " + password, lucFont, Brushes.White, secondLocation);
-                                //graphics.Dispose();
+                                graphics.Dispose();
                             }
                         }
 
@@ -567,15 +571,15 @@ namespace ipcam_winforms
                             }));
                         }
 
-                        //bitmap.Dispose();
+                        bitmap.Dispose();
 
                         File.Delete(localFilename);
 
                     }
 
-                    catch
+                    catch(Exception ex)
                     {
-
+                        //Console.WriteLine(ex.Message);
                     }
                 }
             }
@@ -585,9 +589,7 @@ namespace ipcam_winforms
         {
             var form3 = new about();
             form3.Show();
-        }
-
-        public bool checkforupdate()
+        }        public bool checkforupdate()
         {
             using (MyWebClient client = new MyWebClient())
             {
@@ -633,7 +635,7 @@ namespace ipcam_winforms
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     selectedDirectory = fbd.SelectedPath + "/";
-                    folderBttn.ForeColor = Color.DarkGreen;
+                    folderBttn.ForeColor = System.Drawing.Color.DarkGreen;
                 }
             }
         }
@@ -645,13 +647,13 @@ namespace ipcam_winforms
             if (pause == true)
             {
                 mrse.Reset();
-                button6.ForeColor = Color.Red;
+                button6.ForeColor = System.Drawing.Color.Red;
                 timer1.Stop();
             }
             if (pause == false)
             {
                 mrse.Set();
-                button6.ForeColor = Color.Black;
+                button6.ForeColor = System.Drawing.Color.Black;
                 timer1.Start();
             }
         }
@@ -675,7 +677,7 @@ namespace ipcam_winforms
             if (checkforupdate())
             {
                 updatelbl.Text = "UPDATE AVAILABLE";
-                updatelbl.ForeColor = Color.Green;
+                updatelbl.ForeColor = System.Drawing.Color.Green;
                 updatebttn.Enabled = true;
             }
 
@@ -765,12 +767,20 @@ namespace ipcam_winforms
                 JPG_REQUEST_FOSCAM.Show();
                 return;
             }
+            if (defewayRadioBttn.Checked)
+            {
+                string clocation = "";
+                clocation = defewaylocation;
+                Form JPG_REQUEST_NOPTZ = new JPG_REQUEST_NOPTZ(currentip, customCredsPlain[0], customCredsPlain[1], clocation);
+                JPG_REQUEST_NOPTZ.Show();
+                return;
+            }
             else
             {
                 string clocation = "";
                 clocation = customlocation;
                 Form JPG_REQUEST_NOPTZ = new JPG_REQUEST_NOPTZ(currentip, customCredsPlain[0], customCredsPlain[1], clocation);
-                Console.WriteLine("current ip: " + currentip + "custom creds 0" + customCredsPlain[0] + "custom creds 1" + customCredsPlain[1] + "clocation" + clocation);
+                //Console.WriteLine("current ip: " + currentip + "custom creds 0" + customCredsPlain[0] + "custom creds 1" + customCredsPlain[1] + "clocation" + clocation);
                 JPG_REQUEST_NOPTZ.Show();
                 return;
             }
@@ -888,7 +898,7 @@ namespace ipcam_winforms
         {
             try
             {
-                Console.WriteLine(cdatfolderpath + "/" + checkedListBox1.SelectedItem);
+                //Console.WriteLine(cdatfolderpath + "/" + checkedListBox1.SelectedItem);
                 customRadioBttn.Checked = true;
                 isUsingCustomCameraData = true;
                 customDataB64 = File.ReadAllText(cdatfolderpath + "/" + checkedListBox1.SelectedItem);
@@ -907,5 +917,6 @@ namespace ipcam_winforms
 
             }
         }
+
     }
 }

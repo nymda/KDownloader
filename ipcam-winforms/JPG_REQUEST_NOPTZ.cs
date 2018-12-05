@@ -49,7 +49,11 @@ namespace ipcam_winforms
                     client.Credentials = new NetworkCredential(user, pass);
                     for (; ; )
                     {
+
                         byte[] imageBytes = client.DownloadData((new Uri("http://" + ip + location)));
+
+                        Console.WriteLine(imageBytes.Length);
+
                         Console.WriteLine("http://" + ip + location);
                         Console.WriteLine(imageBytes.Length);
                         Bitmap bmp;
